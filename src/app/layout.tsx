@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { NavbarMenu } from "@/components/common/navbar/page";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import LatestPosts from "@/components/containers/blog/listBlog/page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,9 +31,35 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        {children}
+        <header className="w-full bg-white shadow">
+          <div className="container mx-auto px-4 flex items-center justify-between h-16">
+            <div className="flex-shrink-0">
+              <Link href="/">
+                <Button variant="outline">Blogger</Button>
+              </Link>
+            </div>
+            <nav className="flex flex-grow justify-center items-center">
+              <NavbarMenu />
+            </nav>
+            <div className="flex-shrink-0">
+              <div className="flex w-full max-w-sm items-center space-x-2">
+                <Input type="email" placeholder="Search" />
+                <Button type="submit">Search</Button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <main className="flex-grow container mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Posts area: spans 2 of the 3 columns on md+ screens */}
+          <section className="md:col-span-2">{children}</section>
+          <section className="md:col-span-1">Right side</section>
+        </main>
+
+        <footer className="w-full bg-gray-100 text-center py-4">
+          © {new Date().getFullYear()} Blogger | Nitesh Kumar
+        </footer>
       </body>
     </html>
   );
